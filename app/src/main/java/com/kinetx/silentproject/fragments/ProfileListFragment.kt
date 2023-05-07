@@ -1,10 +1,15 @@
 package com.kinetx.silentproject.fragments
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -20,10 +25,29 @@ class ProfileListFragment : Fragment() {
     private lateinit var binding : FragmentProfileListBinding
     private lateinit var viewModel : ProfileListViewModel
 
+    private lateinit var permissionLauncher : ActivityResultLauncher<Array<String>>
+    private var isReadPermissionGranted = false
+    private var isWritePermissionGranted = false
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
+
+        permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions())
+        {
+            isReadPermissionGranted = it[Manifest.permission.READ_CONTACTS] ?: isReadPermissionGranted
+            isWritePermissionGranted = it[Manifest.permission.WRITE_CONTACTS] ?: isWritePermissionGranted
+        }
+
+        checkPermissions()
+
+
+
 
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_profile_list,container,false)
 
@@ -45,6 +69,32 @@ class ProfileListFragment : Fragment() {
 
 
         return binding.root
+    }
+
+    private fun checkPermissions() {
+        isReadPermissionGranted = ContextCompat.checkSelfPermission(requireContext(),
+            Manifest.permission.READ_CONTACTS
+        )== PackageManager.PERMISSION_GRANTED
+        isWritePermissionGranted = ContextCompat.checkSelfPermission(requireContext(),
+            Manifest.permission.WRITE_CONTACTS
+        ) == PackageManager.PERMISSION_GRANTED
+
+        val permissionRequest : MutableList<String> = ArrayList()
+
+        if (!isReadPermissionGranted)
+        {
+            permissionRequest.add(Manifest.permission.READ_CONTACTS)
+        }
+
+        if (!isWritePermissionGranted)
+        {
+            permissionRequest.add(Manifest.permission.WRITE_CONTACTS)
+        }
+
+        if(permissionRequest.isNotEmpty())
+        {
+            permissionLauncher.launch(permissionRequest.toTypedArray())
+        }
     }
 
 

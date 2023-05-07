@@ -113,13 +113,24 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/profile_details_selected_profiles"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginTop="40dp"
+            app:layout_constraintBottom_toTopOf="@+id/plot_details_barrier"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profile_icon_text"
+            app:layout_constraintVertical_bias="0.0"
             app:layout_constraintVertical_weight="1.0" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/plot_details_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="top"
+            app:constraint_referenced_ids="profile_details_create_button,profile_details_delete_button"
+            tools:layout_editor_absoluteX="152dp"
+            tools:layout_editor_absoluteY="637dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
