@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -8,16 +9,118 @@
             type="com.kinetx.silentproject.viewmodels.ProfileDetailsViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragments.ProfileDetailsFragment">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Details" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    </FrameLayout>
+        <EditText
+            android:id="@+id/profile_name_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:inputType="textPersonName"
+            android:text=""
+            android:ems="5"
+            android:hint="Profile Name"
+            android:minWidth="200dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
+
+        <ImageButton
+            android:id="@+id/profile_icon_button"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="40dp"
+            android:scaleType="fitXY"
+            android:background="@color/black"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/profile_name_edit_text"
+            app:srcCompat="@drawable/guitar" />
+
+        <ImageButton
+            android:id="@+id/profile_color_button"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginStart="40dp"
+            android:scaleType="fitXY"
+            android:background="@color/black"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/profile_icon_button"
+            app:srcCompat="@drawable/guitar" />
+
+        <TextView
+            android:id="@+id/profile_icon_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/icon"
+            app:layout_constraintEnd_toEndOf="@+id/profile_icon_button"
+            app:layout_constraintStart_toStartOf="@+id/profile_icon_button"
+            app:layout_constraintTop_toBottomOf="@+id/profile_icon_button" />
+
+        <TextView
+            android:id="@+id/profile_color_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/color"
+            app:layout_constraintEnd_toEndOf="@+id/profile_color_button"
+            app:layout_constraintStart_toStartOf="@+id/profile_color_button"
+            app:layout_constraintTop_toBottomOf="@+id/profile_color_button" />
+
+        <Button
+            android:id="@+id/profile_details_create_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create"
+            android:layout_marginBottom="40dp"
+            android:visibility="@{profileDetailsViewModel.isCreateVisible()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/profile_details_update_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="40dp"
+            android:visibility="@{profileDetailsViewModel.isUpdateVisible()}"
+            android:text="@string/update"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline" />
+
+        <Button
+            android:id="@+id/profile_details_delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete"
+            android:layout_marginStart="40dp"
+            android:visibility="@{profileDetailsViewModel.isUpdateVisible()}"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/profile_details_update_button" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/profile_details_selected_profiles"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_icon_text"
+            app:layout_constraintVertical_weight="1.0" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
