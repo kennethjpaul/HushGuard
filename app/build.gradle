@@ -5,6 +5,7 @@ plugins {
 }
 
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlinx-serialization'
 
 android {
     compileSdk 32
@@ -62,7 +63,7 @@ dependencies {
 
 
 
-
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
