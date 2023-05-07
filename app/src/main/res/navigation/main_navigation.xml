@@ -7,5 +7,17 @@
     <fragment
         android:id="@+id/profileListFragment"
         android:name="com.kinetx.silentproject.fragments.ProfileListFragment"
-        android:label="ProfileListFragment" />
+        android:label="ProfileListFragment" >
+        <action
+            android:id="@+id/action_profileListFragment_to_profileDetailsFragment"
+            app:destination="@id/profileDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileDetailsFragment"
+        android:name="com.kinetx.silentproject.fragments.ProfileDetailsFragment"
+        android:label="ProfileDetailsFragment" >
+        <argument
+            android:name="profileId"
+            app:argType="long" />
+    </fragment>
 </navigation>

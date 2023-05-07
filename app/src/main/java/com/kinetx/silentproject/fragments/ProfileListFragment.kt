@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.kinetx.silentproject.R
 import com.kinetx.silentproject.databinding.FragmentProfileListBinding
 import com.kinetx.silentproject.viewmodelfactories.ProfileListViewModelFactory
@@ -32,6 +34,14 @@ class ProfileListFragment : Fragment() {
         binding.profileListViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+
+
+        binding.addProfileButton.setOnClickListener()
+        {
+            view?.findNavController()?.navigate(
+                ProfileListFragmentDirections.actionProfileListFragmentToProfileDetailsFragment(-1)
+            )
+        }
 
 
         return binding.root
