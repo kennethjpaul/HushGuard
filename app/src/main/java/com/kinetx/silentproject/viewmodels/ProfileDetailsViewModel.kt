@@ -66,9 +66,8 @@ class ProfileDetailsViewModel(application: Application, private val argList : Pr
         val groupCursor = application.contentResolver.query(
             ContactsContract.Groups.CONTENT_URI, arrayOf(
                 ContactsContract.Groups._ID,
-                ContactsContract.Groups.TITLE,
-                ContactsContract.Groups.GROUP_VISIBLE
-            ), "${ContactsContract.Groups.GROUP_VISIBLE} LIKE '1'", null, null
+                ContactsContract.Groups.TITLE
+            ), "${ContactsContract.Groups.GROUP_VISIBLE} LIKE '1' AND ${ContactsContract.Groups.GROUP_IS_READ_ONLY} LIKE '0'", null, null
         )
 
         if (groupCursor != null) {
@@ -78,8 +77,7 @@ class ProfileDetailsViewModel(application: Application, private val argList : Pr
             {
                 val contactName : String = groupCursor.getString(groupCursor.getColumnIndex(ContactsContract.Groups.TITLE))
                 val contactId : Long = groupCursor.getLong(groupCursor.getColumnIndex(ContactsContract.Groups._ID))
-                //val visible : Int = groupCursor.getInt(groupCursor.getColumnIndex(ContactsContract.Groups.GROUP_VISIBLE))
-                //Log.i("TTT","$contactName : $contactId : $visible ")
+                //Log.i("TTT","$contactName : $contactId ")
 
                 tmp.add(GroupList(contactName,contactId))
 
