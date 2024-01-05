@@ -142,6 +142,33 @@ class ProfileDetailsViewModel(application: Application, private val argList : Pr
         return false
     }
 
+
+
+    @OptIn(DelicateCoroutinesApi::class)
+    fun updateProfile(): Boolean {
+
+        profile.profileIcon = "food"
+        profile.profileColor = java.lang.Long.decode("0xFF005252").toInt()
+
+        profile.groupIds = _adapterQuery.value?.filter { it.isChecked }?.map { it.groupId }!!.flatten().distinctBy {
+            it
+        }
+
+        if(checkProfile(profile))
+        {
+            //TODO relational database
+            GlobalScope.launch(Dispatchers.IO)
+            {
+                repository.updateProfile(profile)
+            }
+            return true
+        }
+
+        return false
+    }
+
+
+
     private fun checkProfile(profile: ProfileDatabase): Boolean {
 
         val context = getApplication<Application>().applicationContext
@@ -159,6 +186,14 @@ class ProfileDetailsViewModel(application: Application, private val argList : Pr
 
 
         return true
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
+    fun deleteProfile() {
+        GlobalScope.launch(Dispatchers.IO)
+        {
+            repository.deleteProfile(profile)
+        }
     }
 
 

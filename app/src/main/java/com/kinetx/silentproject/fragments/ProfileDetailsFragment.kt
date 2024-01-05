@@ -1,5 +1,7 @@
 package com.kinetx.silentproject.fragments
 
+import android.app.AlertDialog
+import android.app.AlertDialog.*
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -55,6 +57,32 @@ class ProfileDetailsFragment : Fragment() {
             {
                 view?.findNavController()?.navigateUp()
             }
+        }
+
+        binding.profileDetailsUpdateButton.setOnClickListener()
+        {
+            if (viewModel.updateProfile())
+            {
+                view?.findNavController()?.navigateUp()
+            }
+        }
+
+        binding.profileDetailsDeleteButton.setOnClickListener()
+        {
+            val builder = Builder(requireContext())
+            builder.setPositiveButton("Yes")
+            {
+                    _,_ ->
+                viewModel.deleteProfile()
+                view?.findNavController()?.navigateUp()
+            }
+            builder.setNegativeButton("No")
+            {
+                    _,_ ->
+            }
+            builder.setTitle("Do you want to delete this profile")
+            builder.setMessage("This action is permanent")
+            builder.create().show()
         }
 
 
