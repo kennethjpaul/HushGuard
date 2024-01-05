@@ -68,6 +68,12 @@ class ProfileListFragment : Fragment() {
         }
 
 
+        viewModel.groupDatabase.observe(viewLifecycleOwner)
+        {
+            viewModel.queryPhone(it)
+        }
+
+
         return binding.root
     }
 

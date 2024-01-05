@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.kinetx.silentproject.helpers.Converters
 
-@Database(entities = [ProfileDatabase::class], version = 1, exportSchema = false)
+@Database(entities = [ProfileDatabase::class, GroupDatabase::class], version = 4, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class DatabaseMain  : RoomDatabase()
 {

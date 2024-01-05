@@ -1,6 +1,5 @@
 package com.kinetx.silentproject.fragments
 
-import android.content.ContentResolver
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -52,17 +51,18 @@ class ProfileDetailsFragment : Fragment() {
             (activity as AppCompatActivity).supportActionBar?.title = it
         }
 
-        viewModel.allGroupList.observe(viewLifecycleOwner)
+        viewModel.groupDatabase.observe(viewLifecycleOwner)
         {
-            viewModel.databaseQuery()
+           viewModel.updateGroupData(it)
         }
 
-        viewModel.databaseList.observe(viewLifecycleOwner)
+        viewModel.profileQuery.observe(viewLifecycleOwner)
         {
-            viewModel.adapterList()
+            viewModel.updateProfileData(it)
+
         }
 
-        viewModel.adapterList.observe(viewLifecycleOwner)
+        viewModel.adapterQuery.observe(viewLifecycleOwner)
         {
             adapter.setData(it)
         }
