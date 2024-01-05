@@ -5,7 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.kinetx.silentproject.R
 import com.kinetx.silentproject.dataclass.GroupsRecyclerDataClass
@@ -45,6 +47,7 @@ class ProfileListAdapter(val listener: ProfileListAdapterInterface) : RecyclerVi
     interface ProfileListAdapterInterface {
         fun profileListSwitchClick(position: Int)
         fun profileListLongClick(position: Int)
+        fun removeFavorites(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -61,17 +64,44 @@ class ProfileListAdapter(val listener: ProfileListAdapterInterface) : RecyclerVi
 
         holder.profileSwitch.setOnClickListener()
         {
+            if (!currentItem.profileChecked)
+            {
+                val builder = AlertDialog.Builder(holder.itemView.context)
+            builder.setPositiveButton("Yes")
+            {
+                    _,_ ->
+                currentItem.profileChecked = !currentItem.profileChecked
+                notifyItemChanged(position)
 
-            currentItem.profileChecked = !currentItem.profileChecked
-            notifyItemChanged(position)
-            _list.filter { it.profileChecked }.forEach {
-                val idx = _list.indexOf(it)
-                if (idx!=position) {
-                    it.profileChecked = false
-                    notifyItemChanged(idx)
+
+                _list.filter { it.profileChecked }.forEach {
+                    val idx = _list.indexOf(it)
+                    if (idx!=position) {
+                        it.profileChecked = false
+                        notifyItemChanged(idx)
+                    }
+                }
+                if(currentItem.profileChecked) {
+                    listener.profileListSwitchClick(position)
                 }
             }
-            listener.profileListSwitchClick(position)
+            builder.setNegativeButton("No")
+            {
+                    _,_ ->
+                currentItem.profileChecked = false
+                notifyItemChanged(position)
+            }
+            builder.setTitle("Do you want to activate this profile?")
+            builder.setMessage("This action can take some time depending upon the device")
+            builder.create().show()
+            }
+            else
+            {
+                currentItem.profileChecked = false
+                notifyItemChanged(position)
+                listener.removeFavorites(position)
+            }
+
         }
     }
 

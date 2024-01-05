@@ -1,6 +1,7 @@
 package com.kinetx.silentproject.fragments
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -120,11 +121,17 @@ class ProfileListFragment : Fragment(), ProfileListAdapter.ProfileListAdapterInt
 
     override fun profileListSwitchClick(position: Int) {
         Log.i("III","Switch click $position")
+        viewModel.activateProfile(position)
+
     }
 
     override fun profileListLongClick(position: Int) {
         val profileId = viewModel.profileList.value?.get(position)!!.profileId
         view?.findNavController()?.navigate(ProfileListFragmentDirections.actionProfileListFragmentToProfileDetailsFragment(profileId))
+    }
+
+    override fun removeFavorites(position: Int) {
+        viewModel.removeFavorites()
     }
 
 
