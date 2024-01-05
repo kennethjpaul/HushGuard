@@ -40,6 +40,7 @@
                 style="@style/material_card_subtitle"
                 android:layout_marginEnd="16dp"
                 android:text="@string/activate"
+                app:trackTint="@color/black_500"
                 app:layout_constraintBottom_toBottomOf="@+id/profile_list_item_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/profile_list_item_name" />
