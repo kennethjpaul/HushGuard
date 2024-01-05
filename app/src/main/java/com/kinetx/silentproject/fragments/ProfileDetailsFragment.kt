@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kinetx.silentproject.R
 import com.kinetx.silentproject.databinding.FragmentProfileDetailsBinding
+import com.kinetx.silentproject.helpers.Converters
 import com.kinetx.silentproject.recyclerview.GroupListAdapter
 import com.kinetx.silentproject.viewmodelfactories.ProfileDetailsViewModelFactory
 import com.kinetx.silentproject.viewmodels.ProfileDetailsViewModel
@@ -46,9 +48,25 @@ class ProfileDetailsFragment : Fragment() {
         binding.profileDetailsSelectedProfiles.setHasFixedSize(true)
         binding.profileDetailsSelectedProfiles.adapter = adapter
 
-            viewModel.fragmentTitle.observe(viewLifecycleOwner)
+
+        binding.profileDetailsCreateButton.setOnClickListener()
+        {
+            if(viewModel.createProfile())
+            {
+                view?.findNavController()?.navigateUp()
+            }
+        }
+
+
+
+        viewModel.fragmentTitle.observe(viewLifecycleOwner)
         {
             (activity as AppCompatActivity).supportActionBar?.title = it
+        }
+
+        viewModel.profileName.observe(viewLifecycleOwner)
+        {
+            viewModel.profile.profileName = it
         }
 
         viewModel.groupDatabase.observe(viewLifecycleOwner)
@@ -58,6 +76,8 @@ class ProfileDetailsFragment : Fragment() {
 
         viewModel.profileQuery.observe(viewLifecycleOwner)
         {
+            binding.profileDetailsIcon.setImageResource(Converters.getResourceInt(application,it.profileIcon))
+            binding.profileColorButton.setCardBackgroundColor(it.profileColor)
             viewModel.updateProfileData(it)
 
         }

@@ -1,5 +1,6 @@
 package com.kinetx.silentproject.helpers
 
+import android.app.Application
 import androidx.room.TypeConverter
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -13,4 +14,11 @@ object Converters {
     @TypeConverter
     fun toList(value: String) = Json.decodeFromString<List<Long>>(value)
 
+    fun getResourceInt(application: Application, fileName : String) : Int
+    {
+        val c = application.applicationContext
+        val b  =c.resources.getIdentifier(fileName,"drawable",c.packageName)
+
+        return b
+    }
 }

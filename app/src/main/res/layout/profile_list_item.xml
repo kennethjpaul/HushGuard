@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="8dp"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/material_card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout style="@style/material_card_constraint">
+
+            <ImageView
+                android:id="@+id/profile_list_item_background"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/profile_list_item_image"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/profile_list_item_background"
+                app:layout_constraintEnd_toEndOf="@+id/profile_list_item_background"
+                app:layout_constraintStart_toStartOf="@+id/profile_list_item_background"
+                app:layout_constraintTop_toTopOf="@+id/profile_list_item_background"
+                app:srcCompat="@drawable/exercise" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/profile_list_item_switch"
+                style="@style/material_card_subtitle"
+                android:layout_marginEnd="16dp"
+                android:text="@string/activate"
+                app:layout_constraintBottom_toBottomOf="@+id/profile_list_item_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/profile_list_item_name" />
+
+            <TextView
+                android:id="@+id/profile_list_item_name"
+                style="@style/material_card_title"
+                android:layout_marginStart="8dp"
+                android:text="TextView"
+                app:layout_constraintBottom_toBottomOf="@+id/profile_list_item_image"
+                app:layout_constraintStart_toEndOf="@+id/profile_list_item_background"
+                app:layout_constraintTop_toTopOf="@+id/profile_list_item_image" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

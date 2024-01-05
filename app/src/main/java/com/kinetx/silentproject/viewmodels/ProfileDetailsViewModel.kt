@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,7 +15,9 @@ import com.kinetx.silentproject.database.GroupDatabase
 import com.kinetx.silentproject.database.ProfileDatabase
 import com.kinetx.silentproject.dataclass.GroupsRecyclerDataClass
 import com.kinetx.silentproject.fragments.ProfileDetailsFragmentArgs
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @SuppressLint("Range", "Recycle")
@@ -38,6 +41,7 @@ class ProfileDetailsViewModel(application: Application, private val argList : Pr
         get() = _profileQuery
 
     var profile : ProfileDatabase = ProfileDatabase()
+    var profileName = MutableLiveData<String>()
 
     val groupDatabase : LiveData<List<GroupDatabase>>
     private var groupData : List<GroupDatabase> = emptyList()
@@ -84,13 +88,13 @@ class ProfileDetailsViewModel(application: Application, private val argList : Pr
 
     fun updateProfileData(it: ProfileDatabase) {
         profile = it
+        profileName.value = it.profileName
         updateList()
     }
 
 
     private fun updateList() {
-        val groupListProfile = profile.groupIds
-
+        var groupListProfile = profile.groupIds
         val _list : ArrayList<GroupsRecyclerDataClass> = ArrayList()
 
 
@@ -114,8 +118,48 @@ class ProfileDetailsViewModel(application: Application, private val argList : Pr
         _adapterQuery.value = _list
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
+    fun createProfile(): Boolean {
+
+        profile.profileId = 0L
+        profile.profileIcon = "food"
+        profile.profileColor = java.lang.Long.decode("0xFF005252").toInt()
+
+        profile.groupIds = _adapterQuery.value?.filter { it.isChecked }?.map { it.groupId }!!.flatten().distinctBy {
+            it
+        }
+
+        if(checkProfile(profile))
+        {
+            //TODO relational database
+            GlobalScope.launch(Dispatchers.IO)
+            {
+                repository.insertProfile(profile)
+            }
+            return true
+        }
+
+        return false
+    }
+
+    private fun checkProfile(profile: ProfileDatabase): Boolean {
+
+        val context = getApplication<Application>().applicationContext
+
+        if (profile.profileName=="")
+        {
+            Toast.makeText(context,"Profile name cannot be blank",Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (profile.groupIds.isEmpty())
+        {
+            Toast.makeText(context,"Select atleast one group",Toast.LENGTH_SHORT).show()
+            return false
+        }
 
 
+        return true
+    }
 
 
     //So what is happening here is this. Initially when the fragment is launched, it retrieves the list of all the groups. That triggers the databaseQuery() which returns the list of groups that were selected. Once this list is updated, it triggers the adapterList() function which updates the adapter list.

@@ -14,7 +14,7 @@ data class ProfileDatabase(
     var profileName : String = "",
 
     @ColumnInfo(name = "profile_icon")
-    var profileIcon : Int = -1,
+    var profileIcon : String = "guitar",
 
     @ColumnInfo(name ="profile_color")
     var profileColor : Int = -1,

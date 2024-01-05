@@ -11,7 +11,10 @@ import androidx.lifecycle.viewModelScope
 import com.kinetx.silentproject.database.DatabaseMain
 import com.kinetx.silentproject.database.DatabaseRepository
 import com.kinetx.silentproject.database.GroupDatabase
+import com.kinetx.silentproject.database.ProfileDatabase
 import com.kinetx.silentproject.dataclass.GroupData
+import com.kinetx.silentproject.dataclass.ProfileItemData
+import com.kinetx.silentproject.helpers.Converters
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -19,10 +22,15 @@ import kotlinx.coroutines.launch
 class ProfileListViewModel(application: Application): AndroidViewModel(application) {
 
     val groupDatabase : LiveData<List<GroupDatabase>>
+    val profileDatabase : LiveData<List<ProfileDatabase>>
 
     private val _groupPhone = MutableLiveData<List<GroupDatabase>>()
     val groupPhone : LiveData<List<GroupDatabase>>
         get() = _groupPhone
+
+    private val _profileList = MutableLiveData<List<ProfileItemData>>()
+    val profileList : LiveData<List<ProfileItemData>>
+        get() = _profileList
 
     val a = application
 
@@ -33,7 +41,7 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
         val userDao = DatabaseMain.getInstance(application).databaseDao
         repository = DatabaseRepository(userDao)
         groupDatabase = repository.getAllGroups
-
+        profileDatabase = repository.getAllProfiles
     }
 
     fun queryPhone(it: List<GroupDatabase>) {
@@ -82,12 +90,20 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
             }
 
             newGroups.forEach {
+                Log.i("III", "Inserting group with id ${it.groupId} and name ${it.groupName}")
                 repository.insertGroup(it)
             }
 
 
         }
 
+    }
+
+    fun makeList(it: List<ProfileDatabase>) {
+
+        _profileList.value  = it.map {
+            ProfileItemData(it.profileId,it.profileName,Converters.getResourceInt(a,it.profileIcon),it.profileColor)
+        }
     }
 
 }

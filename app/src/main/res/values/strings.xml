@@ -6,4 +6,7 @@
     <string name="color">Color</string>
     <string name="update">Update</string>
     <string name="delete">Delete</string>
+    <string name="profile_details">Profile Details</string>
+    <string name="group_details">Group Details</string>
+    <string name="activate">Activate</string>
 </resources>

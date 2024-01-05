@@ -3,6 +3,7 @@ package com.kinetx.silentproject.fragments
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,13 +15,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.kinetx.silentproject.R
 import com.kinetx.silentproject.databinding.FragmentProfileListBinding
+import com.kinetx.silentproject.recyclerview.ProfileListAdapter
 import com.kinetx.silentproject.viewmodelfactories.ProfileListViewModelFactory
 import com.kinetx.silentproject.viewmodels.ProfileListViewModel
 
 
-class ProfileListFragment : Fragment() {
+class ProfileListFragment : Fragment(), ProfileListAdapter.ProfileListAdapterInterface {
 
     private lateinit var binding : FragmentProfileListBinding
     private lateinit var viewModel : ProfileListViewModel
@@ -58,7 +61,10 @@ class ProfileListFragment : Fragment() {
         binding.profileListViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-
+        val adapter = ProfileListAdapter(this)
+        binding.profileListRecycler.layoutManager = LinearLayoutManager(context)
+        binding.profileListRecycler.setHasFixedSize(true)
+        binding.profileListRecycler.adapter = adapter
 
         binding.addProfileButton.setOnClickListener()
         {
@@ -73,6 +79,15 @@ class ProfileListFragment : Fragment() {
             viewModel.queryPhone(it)
         }
 
+        viewModel.profileDatabase.observe(viewLifecycleOwner)
+        {
+            viewModel.makeList(it)
+        }
+
+        viewModel.profileList.observe(viewLifecycleOwner)
+        {
+            adapter.setData(it)
+        }
 
         return binding.root
     }
@@ -101,6 +116,15 @@ class ProfileListFragment : Fragment() {
         {
             permissionLauncher.launch(permissionRequest.toTypedArray())
         }
+    }
+
+    override fun profileListSwitchClick(position: Int) {
+        Log.i("III","Switch click $position")
+    }
+
+    override fun profileListLongClick(position: Int) {
+        val profileId = viewModel.profileList.value?.get(position)!!.profileId
+        view?.findNavController()?.navigate(ProfileListFragmentDirections.actionProfileListFragmentToProfileDetailsFragment(profileId))
     }
 
 

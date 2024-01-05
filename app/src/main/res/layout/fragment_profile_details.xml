@@ -9,97 +9,227 @@
             type="com.kinetx.silentproject.viewmodels.ProfileDetailsViewModel" />
     </data>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragments.ProfileDetailsFragment">
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/profile_details_card"
+            style="@style/material_card"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/material_card_constraint" android:padding="0dp">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="72dp"
+                    android:background="@color/warm_black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    style="@style/material_card_title"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/profile_details"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/profile_name_edit_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:backgroundTint="@color/black"
+                    android:ems="5"
+                    android:hint="Profile Name"
+                    android:inputType="textPersonName"
+                    android:minWidth="200dp"
+                    android:text="@={profileDetailsViewModel.profileName}"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    app:layout_constraintStart_toStartOf="@+id/textView"
+                    app:layout_constraintTop_toBottomOf="@+id/textView"
+                    tools:ignore="HardcodedText" />
+
+
+                <TextView
+                    android:id="@+id/profile_icon_text"
+                    style="@style/material_card_subtitle"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/icon"
+                    app:layout_constraintBottom_toTopOf="@+id/profile_icon_button"
+                    app:layout_constraintEnd_toEndOf="@+id/profile_icon_button"
+                    app:layout_constraintStart_toStartOf="@+id/profile_icon_button" />
+                
+                
+                
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/profile_icon_button"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    app:cardBackgroundColor="@color/black"
+                    app:cardElevation="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/profile_color_button"
+                    app:layout_constraintTop_toTopOf="@+id/profile_color_button">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/profile_details_icon"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleX="0.6"
+                            android:scaleY="0.6"
+                            android:src="@drawable/guitar" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/profile_color_text"
+                    style="@style/material_card_subtitle"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/color"
+                    app:layout_constraintBottom_toTopOf="@+id/profile_color_button"
+                    app:layout_constraintEnd_toEndOf="@+id/profile_color_button"
+                    app:layout_constraintStart_toStartOf="@+id/profile_color_button" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/profile_color_button"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_marginTop="48dp"
+                    app:cardBackgroundColor="@color/black"
+                    app:cardElevation="8dp"
+                    app:layout_constraintEnd_toStartOf="@+id/profile_icon_button"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_name_edit_text">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/profile_details_color"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleX="0.6"
+                            android:scaleY="0.6" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </com.google.android.material.card.MaterialCardView>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_color_button" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/profile_details_group_card"
+            style="@style/material_card"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_details_card">
+
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/material_card_constraint" android:padding="0dp">
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="72dp"
+                    android:background="@color/warm_black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    style="@style/material_card_title"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/group_details"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/profile_details_selected_profiles"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <EditText
-            android:id="@+id/profile_name_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:inputType="textPersonName"
-            android:text=""
-            android:ems="5"
-            android:hint="Profile Name"
-            android:minWidth="200dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="HardcodedText" />
-
-        <ImageButton
-            android:id="@+id/profile_icon_button"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="40dp"
-            android:scaleType="fitXY"
-            android:background="@color/black"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/profile_name_edit_text"
-            app:srcCompat="@drawable/guitar" />
-
-        <ImageButton
-            android:id="@+id/profile_color_button"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_marginStart="40dp"
-            android:scaleType="fitXY"
-            android:background="@color/black"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="@+id/profile_icon_button"
-            app:srcCompat="@drawable/guitar" />
-
-        <TextView
-            android:id="@+id/profile_icon_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/icon"
-            app:layout_constraintEnd_toEndOf="@+id/profile_icon_button"
-            app:layout_constraintStart_toStartOf="@+id/profile_icon_button"
-            app:layout_constraintTop_toBottomOf="@+id/profile_icon_button" />
-
-        <TextView
-            android:id="@+id/profile_color_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/color"
-            app:layout_constraintEnd_toEndOf="@+id/profile_color_button"
-            app:layout_constraintStart_toStartOf="@+id/profile_color_button"
-            app:layout_constraintTop_toBottomOf="@+id/profile_color_button" />
 
         <Button
             android:id="@+id/profile_details_create_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/create"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="40dp"
+            android:text="@string/create"
             android:visibility="@{profileDetailsViewModel.isCreateVisible()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_details_group_card" />
 
         <Button
             android:id="@+id/profile_details_update_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="40dp"
-            android:visibility="@{profileDetailsViewModel.isUpdateVisible()}"
             android:text="@string/update"
+            android:visibility="@{profileDetailsViewModel.isUpdateVisible()}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline" />
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/profile_details_group_card" />
 
         <Button
             android:id="@+id/profile_details_delete_button"
@@ -111,27 +241,9 @@
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/profile_details_update_button" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/profile_details_selected_profiles"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="40dp"
-            app:layout_constraintBottom_toTopOf="@+id/plot_details_barrier"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_icon_text"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintVertical_weight="1.0" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/plot_details_barrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="top"
-            app:constraint_referenced_ids="profile_details_create_button,profile_details_delete_button"
-            tools:layout_editor_absoluteX="152dp"
-            tools:layout_editor_absoluteY="637dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 </layout>
