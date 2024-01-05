@@ -27,11 +27,6 @@ class ProfileListAdapter(val listener: ProfileListAdapterInterface) : RecyclerVi
 
         init {
             itemView.setOnLongClickListener(this)
-            profileSwitch.setOnClickListener()
-            {
-                val position = adapterPosition
-                listener.profileListSwitchClick(position)
-            }
         }
 
         override fun onLongClick(v: View?): Boolean {
@@ -62,6 +57,22 @@ class ProfileListAdapter(val listener: ProfileListAdapterInterface) : RecyclerVi
         holder.profileName.text = currentItem.profileName
         holder.profileColor.setBackgroundColor(currentItem.profileColor)
         holder.profileIcon.setImageResource(currentItem.profileIcon)
+        holder.profileSwitch.isChecked = currentItem.profileChecked
+
+        holder.profileSwitch.setOnClickListener()
+        {
+
+            currentItem.profileChecked = !currentItem.profileChecked
+            notifyItemChanged(position)
+            _list.filter { it.profileChecked }.forEach {
+                val idx = _list.indexOf(it)
+                if (idx!=position) {
+                    it.profileChecked = false
+                    notifyItemChanged(idx)
+                }
+            }
+            listener.profileListSwitchClick(position)
+        }
     }
 
     override fun getItemCount(): Int {

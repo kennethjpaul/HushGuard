@@ -102,7 +102,7 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
     fun makeList(it: List<ProfileDatabase>) {
 
         _profileList.value  = it.map {
-            ProfileItemData(it.profileId,it.profileName,Converters.getResourceInt(a,it.profileIcon),it.profileColor)
+            ProfileItemData(it.profileId,it.profileName,Converters.getResourceInt(a,it.profileIcon),it.profileColor,false)
         }
     }
 

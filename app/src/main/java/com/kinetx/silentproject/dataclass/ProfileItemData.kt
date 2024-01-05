@@ -9,4 +9,6 @@ data class ProfileItemData(
 
     var profileColor : Int = -1,
 
+    var profileChecked : Boolean = false
+
 )
