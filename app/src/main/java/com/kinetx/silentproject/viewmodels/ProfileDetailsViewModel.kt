@@ -122,7 +122,7 @@ class ProfileDetailsViewModel(application: Application, private val argList : Pr
     fun createProfile(): Boolean {
 
         profile.profileId = 0L
-        profile.profileIcon = "food"
+        profile.profileIcon = "profile"
         profile.profileColor = java.lang.Long.decode("0xFF005252").toInt()
 
         profile.groupIds = _adapterQuery.value?.filter { it.isChecked }?.map { it.groupId }!!.flatten().distinctBy {
@@ -147,7 +147,7 @@ class ProfileDetailsViewModel(application: Application, private val argList : Pr
     @OptIn(DelicateCoroutinesApi::class)
     fun updateProfile(): Boolean {
 
-        profile.profileIcon = "food"
+        profile.profileIcon = "profile"
         profile.profileColor = java.lang.Long.decode("0xFF005252").toInt()
 
         profile.groupIds = _adapterQuery.value?.filter { it.isChecked }?.map { it.groupId }!!.flatten().distinctBy {
