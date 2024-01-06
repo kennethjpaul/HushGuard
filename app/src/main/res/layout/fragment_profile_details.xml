@@ -58,6 +58,7 @@
                     android:hint="Profile Name"
                     android:inputType="textPersonName"
                     android:minWidth="200dp"
+                    android:minHeight="48dp"
                     android:text="@={profileDetailsViewModel.profileName}"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black"
@@ -163,7 +164,9 @@
             app:layout_constraintTop_toBottomOf="@+id/profile_details_card">
 
             <androidx.constraintlayout.widget.ConstraintLayout style="@style/material_card_constraint" android:padding="0dp">
+
                 <View
+                    android:id="@+id/view"
                     android:layout_width="0dp"
                     android:layout_height="72dp"
                     android:background="@color/warm_black"
@@ -183,13 +186,21 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/profile_details_selected_profiles"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_details_selected_profiles" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -207,21 +218,19 @@
 
         <Button
             android:id="@+id/profile_details_create_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/button_normal"
             android:layout_marginTop="24dp"
-            android:layout_marginBottom="40dp"
+            android:backgroundTint="@color/cornflower_blue"
             android:text="@string/create"
             android:visibility="@{profileDetailsViewModel.isCreateVisible()}"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profile_details_group_card" />
 
         <Button
             android:id="@+id/profile_details_update_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/button_normal"
+            android:backgroundTint="@color/warm_black"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="40dp"
@@ -233,8 +242,8 @@
 
         <Button
             android:id="@+id/profile_details_delete_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/button_normal"
+            android:backgroundTint="@color/falu_red"
             android:text="@string/delete"
             android:layout_marginStart="40dp"
             android:visibility="@{profileDetailsViewModel.isUpdateVisible()}"

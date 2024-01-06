@@ -3,15 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_marginBottom="8dp"
     android:layout_height="wrap_content">
 
-    <CheckBox
-        android:id="@+id/group_list_item_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:layout_margin="10dp"
+    <com.google.android.material.card.MaterialCardView
+        style="@style/material_card_constraint"
+        app:cardBackgroundColor="@color/warm_black"
+        app:cardElevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout style="@style/material_card_constraint">
+            <CheckBox
+                android:id="@+id/group_list_item_checkbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:buttonTint="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
