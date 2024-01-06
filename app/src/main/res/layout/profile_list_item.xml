@@ -38,21 +38,27 @@
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/profile_list_item_switch"
                 style="@style/material_card_subtitle"
-                android:layout_marginEnd="16dp"
+                android:layout_margin="0dp"
                 android:text="@string/activate"
-                app:trackTint="@color/black_500"
-                app:layout_constraintBottom_toBottomOf="@+id/profile_list_item_name"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/profile_list_item_background"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/profile_list_item_name" />
+                app:layout_constraintTop_toTopOf="@+id/profile_list_item_background"
+                app:trackTint="@color/black_500" />
 
             <TextView
                 android:id="@+id/profile_list_item_name"
                 style="@style/material_card_title"
+                android:layout_width="0dp"
+                android:textAlignment="textStart"
                 android:layout_marginStart="8dp"
-                android:text="TextView"
+                android:maxLines="2"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation"
                 app:layout_constraintBottom_toBottomOf="@+id/profile_list_item_image"
+                app:layout_constraintEnd_toStartOf="@+id/profile_list_item_switch"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/profile_list_item_background"
-                app:layout_constraintTop_toTopOf="@+id/profile_list_item_image" />
+                app:layout_constraintTop_toTopOf="@+id/profile_list_item_image"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
