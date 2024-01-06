@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/profileListFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/profileListFragment"
@@ -19,5 +20,16 @@
         <argument
             android:name="profileId"
             app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.kinetx.silentproject.fragments.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_profileListFragment"
+            app:destination="@id/profileListFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
