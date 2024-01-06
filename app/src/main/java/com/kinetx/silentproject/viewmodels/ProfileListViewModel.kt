@@ -58,6 +58,14 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
     val isProfileListVisible : LiveData<Int>
         get() = _isProfileListVisible
 
+    private var _isInfoProfileVisible = MutableLiveData<Int>()
+    val isInfoProfileVisible : LiveData<Int>
+        get() = _isInfoProfileVisible
+
+    private var _isInfoDNDVisible = MutableLiveData<Int>()
+    val isInfoDNDVisible : LiveData<Int>
+        get() = _isInfoDNDVisible
+
     val a = application
 
     var sharedPref : SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
@@ -87,6 +95,9 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
         groupDatabaseQuery = repository.getAllGroups
         profileDatabaseQuery = repository.getAllProfiles
 
+        _isInfoProfileVisible.value = View.VISIBLE
+        _isInfoDNDVisible.value = View.GONE
+
         lastProfileId = sharedPref.getLong("last_profile",-1L)
 
         val dndStatus = Settings.Global.getInt(contentResolver, "zen_mode")
@@ -94,6 +105,12 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
         if(dndStatus==0)
         {
             lastProfileId=-1L
+
+            if (_isInfoProfileVisible.value==View.GONE)
+            {
+                _isInfoDNDVisible.value = View.VISIBLE
+            }
+
         }
         _dndStatus.value = when(dndStatus)
         {
@@ -170,6 +187,21 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
 
     fun makeList(it: List<ProfileDatabase>) {
 
+        if (it.isNotEmpty())
+        {
+            _isInfoProfileVisible.value = View.GONE
+        }
+
+        val dndStatus = Settings.Global.getInt(contentResolver, "zen_mode")
+
+        if(dndStatus==0)
+        {
+            if (_isInfoProfileVisible.value==View.GONE)
+            {
+                _isInfoDNDVisible.value = View.VISIBLE
+            }
+        }
+
         profileSorted = it.sortedBy { it.profileName }
         val k = profileSorted.map {
             ProfileItemData(it.profileId,it.profileName,Converters.getResourceInt(a,it.profileIcon),it.profileColor,false)
@@ -237,6 +269,7 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
             if (notificationManager != null && notificationManager.isNotificationPolicyAccessGranted) {
                 notificationManager.setInterruptionFilter(INTERRUPTION_FILTER_PRIORITY)
             }
+            _isInfoDNDVisible.value = View.GONE
             _isProfileListVisible.value = View.VISIBLE
         }
         else
@@ -250,6 +283,10 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
                 _profileList.value = _profileList.value?.map {
                     ProfileItemData(it.profileId,it.profileName,it.profileIcon,it.profileColor,false)
                 }
+            }
+            if (_isInfoProfileVisible.value==View.GONE)
+            {
+                _isInfoDNDVisible.value = View.VISIBLE
             }
             removeFavorites()
             val editor = sharedPref.edit()
