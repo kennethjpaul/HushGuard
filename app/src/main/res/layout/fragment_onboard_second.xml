@@ -11,7 +11,7 @@
         android:id="@+id/on_first_text_1"
         style="@style/onboarding_text"
         android:layout_marginTop="32dp"
-        android:text="In order for this app to work, it needs pemission to access contacts and manage notifications"
+        android:text="In order for this app to work, it needs permission to access contacts and manage notifications"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,7 +20,7 @@
         android:id="@+id/on_first_text_"
         style="@style/onboarding_text"
         android:layout_marginTop="24dp"
-        android:text="When the app starts you will be taken to a do not disturb screen to manage noitification permission. Scroll down and locate the app and turn the switch to on position"
+        android:text="On the next screen you will be taken to a do not disturb screen to manage notification permission. Scroll down and locate the app and turn the switch to on position"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/on_first_text_1" />
@@ -33,6 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
 
     <TextView
         android:id="@+id/on_second_navigation_text"

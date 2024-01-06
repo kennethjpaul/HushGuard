@@ -20,9 +20,9 @@ class ViewPagerFragment : Fragment() {
 
         val fragmentList  = arrayListOf<Fragment>(
             OnboardFirstFragment(),
-            OnboardSecondFragment(),
             OnboardThirdFragment(),
             OnBoardingFourthFragment(),
+            OnboardSecondFragment(),
             OnBoardingFifthFragment()
         )
 

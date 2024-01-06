@@ -12,22 +12,12 @@
         android:id="@+id/on_first_text_1"
         style="@style/onboarding_text"
         android:layout_marginTop="16dp"
-        android:text="1. Give a profile name, icon and color\n2.Select the groups that you want to include in this profile"
+        android:text="1. Give a profile name, icon and color\n2. Select the groups that you want to include in this profile"
         android:lineSpacingMultiplier="1.25"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
-    <TextView
-        android:id="@+id/on_first_text_5"
-        style="@style/onboarding_text"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:lineSpacingMultiplier="1.25"
-        android:text="On the next screen you will be asked to give permissions"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/on_first_text_1" />
 
     <TextView
         android:id="@+id/on_fourth_navigation_text"
@@ -46,7 +36,7 @@
         android:id="@+id/imageView4"
         android:layout_width="277dp"
         android:layout_height="410dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/screen_4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
