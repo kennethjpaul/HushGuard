@@ -130,16 +130,16 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
 
         }
 
-        val deletedGroups : List<GroupDatabase> = it.filterNot {
-            groupPhone.map {
-                it.groupId
-            }.contains(it.groupId)
+        val deletedGroups : List<GroupDatabase> = it.filterNot {group->
+            groupPhone.any{phoneGroup->
+                phoneGroup.groupId == group.groupId && phoneGroup.groupName == group.groupName
+            }
         }
 
-        val newGroups : List<GroupDatabase> = groupPhone.filterNot { grp->
-            it.map {
-                it.groupId
-            }.contains(grp.groupId)
+        val newGroups : List<GroupDatabase> = groupPhone.filterNot { phoneGroup->
+            it.any {  group->
+                group.groupId==phoneGroup.groupId && group.groupName == phoneGroup.groupName
+            }
         }
 
 
