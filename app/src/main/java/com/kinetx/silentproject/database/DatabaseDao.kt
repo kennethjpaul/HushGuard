@@ -22,14 +22,14 @@ interface DatabaseDao {
     fun getProfileWithId(profileId: Long) : ProfileDatabase
 
 
-    @Insert
-    suspend fun insertGroup(profile: GroupDatabase)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertGroup(group: GroupDatabase)
 
-    @Update
-    suspend fun updateGroup(profile: GroupDatabase)
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun updateGroup(group: GroupDatabase)
 
     @Delete
-    suspend fun deleteGroup(profile: GroupDatabase)
+    suspend fun deleteGroup(group: GroupDatabase)
 
     @Query("SELECT * FROM group_database")
     fun getAllGroups() : LiveData<List<GroupDatabase>>

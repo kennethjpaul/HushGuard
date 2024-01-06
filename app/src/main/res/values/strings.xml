@@ -10,4 +10,7 @@
     <string name="group_details">Group Details</string>
     <string name="activate">Activate</string>
     <string name="activate_dnd">Activate DND</string>
+    <string name="screen_3_instructions">1. Use it control DND status\n2.Created profiles appear here. Long click a profile to edit it. When the app is launched for the first time this will be empty.\n3.Use this switch to activate a particular profile.\n4. Use this to create new profile.</string>
+    <string name="finish">Finish</string>
+    <string name="ask_permissions">Ask permissions</string>
 </resources>

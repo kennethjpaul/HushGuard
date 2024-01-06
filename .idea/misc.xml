@@ -5,9 +5,11 @@
       <map>
         <entry key="app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.2905" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.26979166666666665" />
+        <entry key="app/src/main/res/layout/fragment_on_boarding_fifth.xml" value="0.2864583333333333" />
+        <entry key="app/src/main/res/layout/fragment_on_boarding_fourth.xml" value="0.2864583333333333" />
         <entry key="app/src/main/res/layout/fragment_onboard_first.xml" value="0.2864583333333333" />
         <entry key="app/src/main/res/layout/fragment_onboard_second.xml" value="0.2864583333333333" />
-        <entry key="app/src/main/res/layout/fragment_onboard_third.xml" value="0.2713541666666667" />
+        <entry key="app/src/main/res/layout/fragment_onboard_third.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_profile_details.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_profile_list.xml" value="0.28489583333333335" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.2864583333333333" />

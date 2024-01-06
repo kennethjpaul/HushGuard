@@ -21,7 +21,9 @@ class ViewPagerFragment : Fragment() {
         val fragmentList  = arrayListOf<Fragment>(
             OnboardFirstFragment(),
             OnboardSecondFragment(),
-            OnboardThirdFragment()
+            OnboardThirdFragment(),
+            OnBoardingFourthFragment(),
+            OnBoardingFifthFragment()
         )
 
         val adapter= ViewPagerAdapter(

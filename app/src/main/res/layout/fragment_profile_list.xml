@@ -12,6 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/black"
         tools:context=".fragments.ProfileListFragment">
 
 
@@ -22,6 +23,8 @@
             android:layout_marginTop="32dp"
             android:text="@string/activate_dnd"
             android:visibility="visible"
+            android:textColor="@color/white"
+            app:trackTint="@color/black_500"
             android:textSize="24sp"
             android:checked="@{profileListViewModel.dndStatus}"
             android:onCheckedChanged="@{(switch, checked) -> profileListViewModel.updateProfileListVisibility(checked)}"
