@@ -25,6 +25,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kinetx.silentproject.R
 import com.kinetx.silentproject.databinding.FragmentProfileListBinding
@@ -44,7 +45,7 @@ class ProfileListFragment : Fragment(), ProfileListAdapter.ProfileListAdapterInt
 
 
     lateinit var notificationManager :NotificationManager
-
+    lateinit var sharedPref : SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,6 +56,9 @@ class ProfileListFragment : Fragment(), ProfileListAdapter.ProfileListAdapterInt
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_profile_list,container,false)
 
         val application = requireNotNull(this.activity).application
+
+        sharedPref =  PreferenceManager.getDefaultSharedPreferences(application)
+
         val viewModelFactory = ProfileListViewModelFactory(application)
         viewModel = ViewModelProvider(this,viewModelFactory)[ProfileListViewModel::class.java]
 
@@ -200,6 +204,9 @@ class ProfileListFragment : Fragment(), ProfileListAdapter.ProfileListAdapterInt
     }
 
     override fun removeFavorites(position: Int) {
+        val editor = sharedPref.edit()
+        editor.putLong("last_profile",-1L)
+        editor.apply()
         viewModel.removeFavorites()
     }
 
