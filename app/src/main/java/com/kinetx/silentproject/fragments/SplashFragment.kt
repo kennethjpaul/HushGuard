@@ -1,5 +1,6 @@
 package com.kinetx.silentproject.fragments
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import com.kinetx.silentproject.R
 import kotlinx.coroutines.*
 
@@ -18,9 +20,11 @@ class SplashFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        val coroutineScope = CoroutineScope(Dispatchers.Main)
 
 
+        val sharedPref : SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val onBoardingFinished = sharedPref.getBoolean("onBoardingFinished",false)
+//        val coroutineScope = CoroutineScope(Dispatchers.Main)
 //        coroutineScope.launch(Dispatchers.IO)
 //        {
 //            delay(1000)
@@ -29,7 +33,14 @@ class SplashFragment : Fragment() {
 
         Handler().postDelayed(
             {
-                findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToProfileListFragment())
+                if (onBoardingFinished)
+                {
+                    findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToProfileListFragment())
+                }
+                else
+                {
+                    findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToViewPagerFragment())
+                }
             },1000
         )
 
