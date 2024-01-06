@@ -11,13 +11,25 @@
     <TextView
         android:id="@+id/on_first_text_1"
         style="@style/onboarding_text"
-        android:layout_marginTop="16dp"
-        android:text="1. Give a profile name, icon and color\n2. Select the groups that you want to include in this profile"
+        android:layout_marginTop="24dp"
         android:lineSpacingMultiplier="1.25"
+        android:text="1. Give a profile name, icon and color\n2. Select the groups that you want to include in this profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/on_first_text_6" />
+
+
+    <TextView
+        android:id="@+id/on_first_text_6"
+        style="@style/onboarding_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:lineSpacingMultiplier="1.25"
+        android:text="Creating and editing profiles"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
-
 
     <TextView
         android:id="@+id/on_fourth_navigation_text"

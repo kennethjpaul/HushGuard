@@ -46,7 +46,7 @@
         android:id="@+id/on_first_text_2"
         style="@style/onboarding_text"
         android:layout_marginTop="24dp"
-        android:text="The app works by utilizing groups and favorites you find in your contact manager"
+        android:text="The app works by utilizing groups and favorites you find in your contact manager."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/on_first_text_1" />
@@ -54,7 +54,7 @@
     <TextView
         android:id="@+id/on_first_text_3"
         style="@style/onboarding_text"
-        android:text="The contact gets added to favorites and removed as you select different profie. This means your contacts in favorites will be manged by the app from now on"
+        android:text="The contact gets added to favorites and removed as you select different profiles. This means your contacts in favorites will be manged by the app from now on."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/on_first_image" />
