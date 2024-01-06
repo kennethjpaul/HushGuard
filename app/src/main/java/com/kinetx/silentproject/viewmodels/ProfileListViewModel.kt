@@ -10,7 +10,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.database.Cursor
 import android.net.Uri
-import android.os.Build
 import android.provider.ContactsContract
 import android.provider.Settings
 import android.util.Log
@@ -37,8 +36,8 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
     val uri2 : Uri = ContactsContract.Data.CONTENT_URI
     val contentResolver : ContentResolver = application.contentResolver
 
-    val groupDatabase : LiveData<List<GroupDatabase>>
-    val profileDatabase : LiveData<List<ProfileDatabase>>
+    val groupDatabaseQuery : LiveData<List<GroupDatabase>>
+    val profileDatabaseQuery : LiveData<List<ProfileDatabase>>
 
     var profileSorted : List<ProfileDatabase> = emptyList()
 
@@ -85,8 +84,8 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
 
         val userDao = DatabaseMain.getInstance(application).databaseDao
         repository = DatabaseRepository(userDao)
-        groupDatabase = repository.getAllGroups
-        profileDatabase = repository.getAllProfiles
+        groupDatabaseQuery = repository.getAllGroups
+        profileDatabaseQuery = repository.getAllProfiles
 
         lastProfileId = sharedPref.getLong("last_profile",-1L)
 
@@ -111,7 +110,7 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
             ContactsContract.Groups.CONTENT_URI, arrayOf(
                 ContactsContract.Groups._ID,
                 ContactsContract.Groups.TITLE
-            ), "${ContactsContract.Groups.GROUP_VISIBLE} LIKE '1' AND ${ContactsContract.Groups.GROUP_IS_READ_ONLY} LIKE '0'", null, null
+            ), "${ContactsContract.Groups.GROUP_VISIBLE} LIKE '1' AND ${ContactsContract.Groups.GROUP_IS_READ_ONLY} LIKE '0' AND ${ContactsContract.Groups.DELETED} LIKE '0'", null, null
         )
 
         val groupPhone = ArrayList<GroupDatabase>()
@@ -128,6 +127,16 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
 
             }
 
+        }
+
+
+
+        it.forEach {
+            Log.i("III","Database ${it.groupName}")
+        }
+
+        groupPhone.forEach{
+            Log.i("III","Phone ${it.groupName}")
         }
 
         val deletedGroups : List<GroupDatabase> = it.filterNot {group->
@@ -154,7 +163,6 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
                 Log.i("III", "Inserting group with id ${it.groupId} and name ${it.groupName}")
                 repository.insertGroup(it)
             }
-
 
         }
 

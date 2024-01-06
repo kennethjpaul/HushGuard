@@ -1,14 +1,11 @@
 package com.kinetx.silentproject.fragments
 
 import android.Manifest
-import android.app.Activity
-import android.app.AlertDialog
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -19,11 +16,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -100,14 +95,14 @@ class ProfileListFragment : Fragment(), ProfileListAdapter.ProfileListAdapterInt
         }
 
 
-        viewModel.groupDatabase.observe(viewLifecycleOwner)
+        viewModel.groupDatabaseQuery.observe(viewLifecycleOwner)
         {
             if(isReadPermissionGranted && isWritePermissionGranted) {
                 viewModel.queryPhone(it)
             }
         }
 
-        viewModel.profileDatabase.observe(viewLifecycleOwner)
+        viewModel.profileDatabaseQuery.observe(viewLifecycleOwner)
         {
             viewModel.makeList(it)
         }
