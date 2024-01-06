@@ -15,6 +15,7 @@ import android.provider.ContactsContract
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -205,7 +206,7 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
         val editor = sharedPref.edit()
         editor.putLong("last_profile",profileId)
         editor.apply()
-
+        Toast.makeText(a,"Profile activation completed",Toast.LENGTH_SHORT).show()
     }
 
     fun removeFavorites() {
