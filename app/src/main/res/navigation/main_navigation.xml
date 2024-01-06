@@ -36,6 +36,11 @@
             app:destination="@id/viewPagerFragment"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_permissionFragment"
+            app:destination="@id/permissionFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/viewPagerFragment"
@@ -47,5 +52,14 @@
             app:destination="@id/profileListFragment"
             app:popUpTo="@id/viewPagerFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/permissionFragment"
+        android:name="com.kinetx.silentproject.fragments.PermissionFragment"
+        android:label="fragment_permission"
+        tools:layout="@layout/fragment_permission" >
+        <action
+            android:id="@+id/action_permissionFragment_to_profileListFragment"
+            app:destination="@id/profileListFragment" />
     </fragment>
 </navigation>

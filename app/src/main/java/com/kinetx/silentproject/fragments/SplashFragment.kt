@@ -1,12 +1,17 @@
 package com.kinetx.silentproject.fragments
 
+import android.Manifest
+import android.app.NotificationManager
+import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.kinetx.silentproject.R
@@ -24,18 +29,29 @@ class SplashFragment : Fragment() {
 
         val sharedPref : SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         val onBoardingFinished = sharedPref.getBoolean("onBoardingFinished",false)
-//        val coroutineScope = CoroutineScope(Dispatchers.Main)
-//        coroutineScope.launch(Dispatchers.IO)
-//        {
-//            delay(1000)
-//            findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToProfileListFragment())
-//        }
+
+        val isReadPermissionGranted = ContextCompat.checkSelfPermission(requireContext(),
+        Manifest.permission.READ_CONTACTS
+        )== PackageManager.PERMISSION_GRANTED
+
+        val isWritePermissionGranted = ContextCompat.checkSelfPermission(requireContext(),
+            Manifest.permission.WRITE_CONTACTS
+        ) == PackageManager.PERMISSION_GRANTED
+
+        val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         Handler().postDelayed(
             {
                 if (onBoardingFinished)
                 {
-                    findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToProfileListFragment())
+                    if (isReadPermissionGranted && isWritePermissionGranted && notificationManager.isNotificationPolicyAccessGranted)
+                    {
+                        findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToProfileListFragment())
+                    }
+                    else
+                    {
+                        findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToPermissionFragment())
+                    }
                 }
                 else
                 {
