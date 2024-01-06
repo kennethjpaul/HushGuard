@@ -2,16 +2,24 @@ package com.kinetx.silentproject.viewmodels
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.app.NotificationManager
+import android.app.NotificationManager.*
 import android.content.ContentResolver
 import android.content.ContentValues
+import android.content.Context
+import android.content.SharedPreferences
 import android.database.Cursor
 import android.net.Uri
+import android.os.Build
 import android.provider.ContactsContract
+import android.provider.Settings
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.preference.PreferenceManager
 import com.kinetx.silentproject.database.DatabaseMain
 import com.kinetx.silentproject.database.DatabaseRepository
 import com.kinetx.silentproject.database.GroupDatabase
@@ -41,9 +49,20 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
     val profileList : LiveData<List<ProfileItemData>>
         get() = _profileList
 
+
+    private val _dndStatus = MutableLiveData<Boolean>()
+    val dndStatus : LiveData<Boolean>
+        get() = _dndStatus
+
+    private var _isProfileListVisible = MutableLiveData<Int>()
+    val isProfileListVisible : LiveData<Int>
+        get() = _isProfileListVisible
+
     val a = application
 
+    var sharedPref : SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
 
+    var lastProfileId : Long = -1L
 
     private val valueUnStar = ContentValues().apply {
         put(ContactsContract.Contacts.STARRED, 0);
@@ -67,6 +86,22 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
         repository = DatabaseRepository(userDao)
         groupDatabase = repository.getAllGroups
         profileDatabase = repository.getAllProfiles
+
+        lastProfileId = sharedPref.getLong("last_profile",-1L)
+
+        val dndStatus = Settings.Global.getInt(contentResolver, "zen_mode")
+
+        if(dndStatus==0)
+        {
+            lastProfileId=-1L
+        }
+        _dndStatus.value = when(dndStatus)
+        {
+            0-> false
+            1->true
+            else -> false
+
+        }
     }
 
     fun queryPhone(it: List<GroupDatabase>) {
@@ -127,13 +162,15 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
     fun makeList(it: List<ProfileDatabase>) {
 
         profileSorted = it.sortedBy { it.profileName }
-
-        _profileList.value  = profileSorted.map {
+        val k = profileSorted.map {
             ProfileItemData(it.profileId,it.profileName,Converters.getResourceInt(a,it.profileIcon),it.profileColor,false)
         }
+        k.find { it.profileId==lastProfileId }?.profileChecked=true
+        _profileList.value  = k
     }
 
     fun activateProfile(position: Int) {
+        val profileId = profileSorted[position].profileId
         val groupList = profileSorted[position].groupIds
         val contactList : ArrayList<String> = ArrayList()
         groupList.forEach {
@@ -165,7 +202,9 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
             selectionStarred,
             null
         )
-
+        val editor = sharedPref.edit()
+        editor.putLong("last_profile",profileId)
+        editor.apply()
 
     }
 
@@ -180,6 +219,36 @@ class ProfileListViewModel(application: Application): AndroidViewModel(applicati
             selection,
             selectionArgs
         )
+    }
+
+    fun updateProfileListVisibility(it: Boolean) {
+        if (it)
+        {
+            val notificationManager = a.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
+            if (notificationManager != null && notificationManager.isNotificationPolicyAccessGranted) {
+                notificationManager.setInterruptionFilter(INTERRUPTION_FILTER_PRIORITY)
+            }
+            _isProfileListVisible.value = View.VISIBLE
+        }
+        else
+        {
+            val notificationManager = a.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
+            if (notificationManager != null && notificationManager.isNotificationPolicyAccessGranted) {
+                notificationManager.setInterruptionFilter(INTERRUPTION_FILTER_ALL)
+            }
+            _isProfileListVisible.value = View.GONE
+            if (_profileList.value!=null){
+                _profileList.value = _profileList.value?.map {
+                    ProfileItemData(it.profileId,it.profileName,it.profileIcon,it.profileColor,false)
+                }
+            }
+            removeFavorites()
+            val editor = sharedPref.edit()
+            editor.putLong("last_profile",-1L)
+            editor.apply()
+        }
+
+
     }
 
 }

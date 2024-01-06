@@ -1,16 +1,25 @@
 package com.kinetx.silentproject.fragments
 
 import android.Manifest
+import android.app.Activity
 import android.app.AlertDialog
+import android.app.NotificationManager
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -34,6 +43,8 @@ class ProfileListFragment : Fragment(), ProfileListAdapter.ProfileListAdapterInt
     private var isWritePermissionGranted = false
 
 
+    lateinit var notificationManager :NotificationManager
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,23 +52,33 @@ class ProfileListFragment : Fragment(), ProfileListAdapter.ProfileListAdapterInt
     ): View? {
 
 
-
-        permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions())
-        {
-            isReadPermissionGranted = it[Manifest.permission.READ_CONTACTS] ?: isReadPermissionGranted
-            isWritePermissionGranted = it[Manifest.permission.WRITE_CONTACTS] ?: isWritePermissionGranted
-        }
-
-        checkPermissions()
-
-
-
-
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_profile_list,container,false)
 
         val application = requireNotNull(this.activity).application
         val viewModelFactory = ProfileListViewModelFactory(application)
         viewModel = ViewModelProvider(this,viewModelFactory)[ProfileListViewModel::class.java]
+
+        permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions())
+        {
+            isReadPermissionGranted = it[Manifest.permission.READ_CONTACTS] ?: isReadPermissionGranted
+            isWritePermissionGranted = it[Manifest.permission.WRITE_CONTACTS] ?: isWritePermissionGranted
+            restartApp()
+        }
+
+
+        notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (!notificationManager.isNotificationPolicyAccessGranted) {
+            val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
+            requestNotificationPolicyAccessLauncher.launch(intent)
+        }
+        else
+        {
+            checkPermissions()
+        }
+
+
+
 
         binding.profileListViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -77,7 +98,9 @@ class ProfileListFragment : Fragment(), ProfileListAdapter.ProfileListAdapterInt
 
         viewModel.groupDatabase.observe(viewLifecycleOwner)
         {
-            viewModel.queryPhone(it)
+            if(isReadPermissionGranted && isWritePermissionGranted) {
+                viewModel.queryPhone(it)
+            }
         }
 
         viewModel.profileDatabase.observe(viewLifecycleOwner)
@@ -90,8 +113,48 @@ class ProfileListFragment : Fragment(), ProfileListAdapter.ProfileListAdapterInt
             adapter.setData(it)
         }
 
+        viewModel.dndStatus.observe(viewLifecycleOwner)
+        {
+            viewModel.updateProfileListVisibility(it)
+        }
+
+
+
+
+
         return binding.root
     }
+
+
+    private fun restartApp()
+    {
+        if (isReadPermissionGranted && isReadPermissionGranted) {
+            Toast.makeText(
+                context,
+                "Please restart the app for the changes to take place",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+        else
+        {
+            Toast.makeText(context,"Please give the necessary permissions",Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun initializeUI() {
+        binding.homeDndSwitch.visibility = View.VISIBLE
+        binding.addProfileButton.visibility = View.VISIBLE
+    }
+
+    private val requestNotificationPolicyAccessLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+            if (notificationManager?.isNotificationPolicyAccessGranted == true) {
+                checkPermissions()
+            } else {
+                Log.i("III","Here 2")
+            }
+        }
 
     private fun checkPermissions() {
         isReadPermissionGranted = ContextCompat.checkSelfPermission(requireContext(),
@@ -100,6 +163,7 @@ class ProfileListFragment : Fragment(), ProfileListAdapter.ProfileListAdapterInt
         isWritePermissionGranted = ContextCompat.checkSelfPermission(requireContext(),
             Manifest.permission.WRITE_CONTACTS
         ) == PackageManager.PERMISSION_GRANTED
+
 
         val permissionRequest : MutableList<String> = ArrayList()
 
@@ -117,6 +181,11 @@ class ProfileListFragment : Fragment(), ProfileListAdapter.ProfileListAdapterInt
         {
             permissionLauncher.launch(permissionRequest.toTypedArray())
         }
+        else
+        {
+            initializeUI()
+        }
+
     }
 
     override fun profileListSwitchClick(position: Int) {

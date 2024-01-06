@@ -14,21 +14,39 @@
         android:layout_height="match_parent"
         tools:context=".fragments.ProfileListFragment">
 
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/home_dnd_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/activate_dnd"
+            android:visibility="gone"
+            android:textSize="24sp"
+            android:checked="@{profileListViewModel.dndStatus}"
+            android:onCheckedChanged="@{(switch, checked) -> profileListViewModel.updateProfileListVisibility(checked)}"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/profile_list_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="24dp"
+            android:visibility="@{profileListViewModel.isProfileListVisible()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/home_dnd_switch" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_profile_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:visibility="gone"
             android:layout_margin="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
