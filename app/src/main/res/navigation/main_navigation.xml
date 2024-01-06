@@ -15,7 +15,7 @@
     <fragment
         android:id="@+id/profileDetailsFragment"
         android:name="com.kinetx.silentproject.fragments.ProfileDetailsFragment"
-        android:label="ProfileDetailsFragment" >
+        android:label="" >
         <argument
             android:name="profileId"
             app:argType="long" />
